@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 import urllib.request
 import os
 import shutil
+from .SECURE_DIRECTORY import secure_info
 
-open_api_key = '58OFrfvEmYaXf%2FgCXMXnnOixkQBr13mWFXDozqJTPHqWZ7jK4zsCQGcU64mdfPNmeWAs1JfijRXgob%2FsqlkNew%3D%3D'
-open_url = 'http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?serviceKey=58OFrfvEmYaXf%2FgCXMXnnOixkQBr13mWFXDozqJTPHqWZ7jK4zsCQGcU64mdfPNmeWAs1JfijRXgob%2FsqlkNew%3D%3D&upkind=417000&state=protect&pageNo=1&numOfRows=10000'
+open_api_key = secure_info.open_api_key
+open_url = secure_info.open_url
 # Open API URL 생성
 
 res = requests.get(open_url)
