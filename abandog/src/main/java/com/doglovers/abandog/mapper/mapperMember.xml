@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.doglovers.abondog.dao.MemberDAO">
-	<!-- 
-	<resultMap id="loginVo"
-		type="kr.co.ethree.kaccc.home.web.vo.LoginVO">
-		<result property="userId" column="USER_ID" />
-		<result property="userNm" column="USER_NM" />
-		<result property="password" column="PASSWORD" />
-		<result property="useYn" column="USE_YN" />
-		<result property="roleId" column="ROLE_ID" />
-		<result property="deptNm" column="DEPT_NM" />
-		<result property="posiNm" column="POSI_NM" />
-	-->
-		<!-- <result property="authCd" column="AUTH_CD"/> <result property="prntAreaCd" 
-			column="PRNT_AREA_CD"/> <result property="prntAreaNm" column="PRNT_AREA_NM"/> 
-			<result property="areaCd" column="AREA_CD"/> <result property="areaNm" column="AREA_NM"/> 
-			<result property="farmCd" column="FARM_CD"/> <result property="farmNm" column="FARM_NM"/> 
-			<result property="tel" column="TEL"/> <result property="email" column="EMAIL"/> 
-			<result property="modeFlag" column="MODE_FLAG"/> <result property="regDt" 
-			column="REG_DT"/> -->
-	<!--
-	</resultMap>
- 	-->
- 	
-	<!-- 테스트 -->
-	<select id="test123" parameterType="java.util.HashMap" resultType="int">
-		SELECT uid FROM member
+	<!-- <resultMap id="loginVo" type="kr.co.ethree.kaccc.home.web.vo.LoginVO"> 
+		<result property="userId" column="USER_ID" /> <result property="userNm" column="USER_NM" 
+		/> <result property="password" column="PASSWORD" /> <result property="useYn" 
+		column="USE_YN" /> <result property="roleId" column="ROLE_ID" /> <result 
+		property="deptNm" column="DEPT_NM" /> <result property="posiNm" column="POSI_NM" 
+		/> -->
+	<!-- <result property="authCd" column="AUTH_CD"/> <result property="prntAreaCd" 
+		column="PRNT_AREA_CD"/> <result property="prntAreaNm" column="PRNT_AREA_NM"/> 
+		<result property="areaCd" column="AREA_CD"/> <result property="areaNm" column="AREA_NM"/> 
+		<result property="farmCd" column="FARM_CD"/> <result property="farmNm" column="FARM_NM"/> 
+		<result property="tel" column="TEL"/> <result property="email" column="EMAIL"/> 
+		<result property="modeFlag" column="MODE_FLAG"/> <result property="regDt" 
+		column="REG_DT"/> -->
+	<!-- </resultMap> -->
+
+	<!-- id 중복체크 -->
+	<select id="checkId" parameterType="String" resultType="int">
+		SELECT
+		count(*) FROM member WHERE id = #{id};
 	</select>
+	<!-- email 중복체크 -->
+	<select id="checkEmail" parameterType="String" resultType="int">
+		SELECT
+		count(*) FROM member WHERE email = #{email};
+	</select>
+
+	<!-- 회원등록 -->
+	<insert id="insertMemDTO" flushCache="true"
+		parameterType="com.doglovers.abandog.dto.MemberDTO">
+		INSERT INTO member(id, pw, name, email, regDate)
+		VALUES (#{userVO.id}, #{userVO.pw}, #{userVO.name}, #{userVO.email},SYSDATE());
+	</insert>
+
 
 </mapper>

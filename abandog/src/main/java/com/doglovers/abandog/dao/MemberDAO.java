@@ -12,8 +12,17 @@ import com.doglovers.abandog.dto.MemberDTO;
 
 @Repository("MemberDAO")
 public class MemberDAO extends AbstractDAO{
-	
-	public int test123() throws Exception{
-		return (int) selectOne("test123");
+
+	public int checkId(String id) throws Exception{
+		return (int) selectOne("checkId", id);
 	}
+	public int checkEmail(String email) {
+		return (int) selectOne("checkemail", email);
+	}
+	public void insertMemDTO(MemberDTO userVO) {
+		insert("insertMember",userVO);
+		
+	}
+
+	
 }
