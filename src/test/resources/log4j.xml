@@ -11,9 +11,9 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.doglovers.abandog">
+	<!--<logger name="com.doglovers.abandog">
 		<level value="info" />
-	</logger>
+	</logger>-->
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
@@ -31,11 +31,11 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-
+	
 	<!-- Root Logger -->
-	<root>
-		<priority value="info" />
-		<appender-ref ref="console" />
-	</root>
+    <root>
+        <priority value="debug" />
+        <appender-ref ref="console" />
+    </root>
 	
 </log4j:configuration>

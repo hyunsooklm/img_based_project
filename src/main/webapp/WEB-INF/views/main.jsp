@@ -76,7 +76,7 @@
           <h2>사지 말고 <span>입양하세요</span></h2>
           <h4>유기견들이 당신을 기다리고 있어요!</h4>
           <div>
-            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="${pageContext.request.contextPath}/searchbycategory" class="btn-get-started scrollto">Get Started</a>
           </div>
         </div>
 
