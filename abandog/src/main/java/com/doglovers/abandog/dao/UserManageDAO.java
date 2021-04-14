@@ -20,4 +20,7 @@ public class UserManageDAO extends AbstractDAO{
 	public void insertMemDTO(MemberDTO userVO) {
 		insert("insertMember",userVO);
 	}
+	public MemberDTO login(MemberDTO userVO) {
+		return (MemberDTO) selectOne("login", userVO);
+	}
 }

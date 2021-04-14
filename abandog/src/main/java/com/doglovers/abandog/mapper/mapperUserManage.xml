@@ -29,10 +29,15 @@
 
 	<!-- 회원등록 -->
 	<insert id="insertMemDTO" flushCache="true"
-		parameterType="com.doglovers.abandog.dto.MemberDTO">
-		INSERT INTO member(id, pw, name, email, regDate)
-		VALUES (#{userVO.id}, #{userVO.pw}, #{userVO.name}, #{userVO.email},SYSDATE());
+		parameterType="com.doglovers.abandog.dto.MemberDTO" useGeneratedKeys="true" keyProperty="uid">
+		INSERT INTO member(id, pw, name, email)
+		VALUES (#{userVO.id}, #{userVO.pw}, #{userVO.name}, #{userVO.email});
 	</insert>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="com.doglovers.abandog.dto.MemberDTO" resultType="com.doglovers.abandog.dto.MemberDTO">
+		SELECT * FROM member WHERE id = #{userVO.id} AND pw = #{userVO.pw};
+	</select>
 
 
 </mapper>
