@@ -1,38 +1,574 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.doglovers.abondog.dao.MemberDAO">
-	<!-- <resultMap id="loginVo" type="kr.co.ethree.kaccc.home.web.vo.LoginVO"> 
-		<result property="userId" column="USER_ID" /> <result property="userNm" column="USER_NM" 
-		/> <result property="password" column="PASSWORD" /> <result property="useYn" 
-		column="USE_YN" /> <result property="roleId" column="ROLE_ID" /> <result 
-		property="deptNm" column="DEPT_NM" /> <result property="posiNm" column="POSI_NM" 
-		/> -->
-	<!-- <result property="authCd" column="AUTH_CD"/> <result property="prntAreaCd" 
-		column="PRNT_AREA_CD"/> <result property="prntAreaNm" column="PRNT_AREA_NM"/> 
-		<result property="areaCd" column="AREA_CD"/> <result property="areaNm" column="AREA_NM"/> 
-		<result property="farmCd" column="FARM_CD"/> <result property="farmNm" column="FARM_NM"/> 
-		<result property="tel" column="TEL"/> <result property="email" column="EMAIL"/> 
-		<result property="modeFlag" column="MODE_FLAG"/> <result property="regDt" 
-		column="REG_DT"/> -->
-	<!-- </resultMap> -->
-
-	<!-- id 중복체크 -->
-	<select id="checkId" parameterType="String" resultType="int">
-		SELECT
-		count(*) FROM member WHERE id = #{id};
+<mapper namespace="com.doglovers.abandog.dao.MemberDAO">
+	
+	<select id="selectDogListNum" resultType="int">
+		SELECT	count(*)
+		FROM	dog
 	</select>
-	<!-- email 중복체크 -->
-	<select id="checkEmail" parameterType="String" resultType="int">
-		SELECT
-		count(*) FROM member WHERE email = #{email};
+	
+	<select id="selectDogListNum2" resultType="int">
+		SELECT	count(*)
+		FROM	dog
+		<include refid="search"></include>
 	</select>
 
-	<!-- 회원등록 -->
-	<insert id="insertMemDTO" flushCache="true"
-		parameterType="com.doglovers.abandog.dto.MemberDTO">
-		INSERT INTO member(id, pw, name, email, regDate)
-		VALUES (#{userVO.id}, #{userVO.pw}, #{userVO.name}, #{userVO.email},SYSDATE());
-	</insert>
-
-
+	<select id="selectDogList" resultType="com.doglovers.abandog.dto.DogDTO">
+		SELECT * FROM dog
+		<include refid="search"></include>
+		LIMIT #{startList}, #{listSize}
+	</select>
+	
+	<sql id="search">
+		<choose>
+			<when test="gender == 0">
+				<choose>
+					<when test="neuter == 0">
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								WHERE careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								WHERE careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								WHERE careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								WHERE careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								WHERE careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								WHERE careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								WHERE careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								WHERE careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								WHERE careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								WHERE careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								WHERE careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								WHERE careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								WHERE careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								WHERE careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								WHERE careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								WHERE careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								WHERE careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<when test="neuter == 1">
+						WHERE neuter = 'Y'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<otherwise>
+						WHERE neuter = 'N'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</when>
+			<when test="gender == 1">
+				WHERE sex = 'F'
+				<choose>
+					<when test="neuter == 0">
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<when test="neuter == 1">
+						AND neuter = 'Y'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<otherwise>
+						AND neuter = 'N'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				WHERE sex = 'M'
+				<choose>
+					<when test="neuter == 0">
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<when test="neuter == 1">
+						AND neuter = 'Y'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</when>
+					<otherwise>
+						AND neuter = 'N'
+						<choose>
+							<when test="location == 0">
+								
+							</when>
+							<when test="location == 1">
+								AND careAddr like '강원도%'
+							</when>
+							<when test="location == 2">
+								AND careAddr like '경기도%'
+							</when>
+							<when test="location == 3">
+								AND careAddr like '경상남도%'
+							</when>
+							<when test="location == 4">
+								AND careAddr like '경상북도%'
+							</when>
+							<when test="location == 5">
+								AND careAddr like '광주광역시%'
+							</when>
+							<when test="location == 6">
+								AND careAddr like '대구광역시%'
+							</when>
+							<when test="location == 7">
+								AND careAddr like '대전광역시%'
+							</when>
+							<when test="location == 8">
+								AND careAddr like '부산광역시%'
+							</when>
+							<when test="location == 9">
+								AND careAddr like '서울특별시%'
+							</when>
+							<when test="location == 10">
+								AND careAddr like '세종특별자치시%'
+							</when>
+							<when test="location == 11">
+								AND careAddr like '울산광역시%'
+							</when>
+							<when test="location == 12">
+								AND careAddr like '인천광역시%'
+							</when>
+							<when test="location == 13">
+								AND careAddr like '전라남도%'
+							</when>
+							<when test="location == 14">
+								AND careAddr like '전라북도%'
+							</when>
+							<when test="location == 15">
+								AND careAddr like '제주특별자치도%'
+							</when>
+							<when test="location == 16">
+								AND careAddr like '충청남도%'
+							</when>
+							<otherwise>
+								AND careAddr like '충청북도%'
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="selectDog" resultType="com.doglovers.abandog.dto.DogDTO">
+		SELECT * FROM dog
+		WHERE cid = #{cid}
+	</select>
+	
 </mapper>

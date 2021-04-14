@@ -2,27 +2,14 @@ package com.doglovers.abandog.dao;
 
 import java.util.ArrayList;
 
-import javax.annotation.Resource;
-
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-import com.doglovers.abandog.dto.MemberDTO;
+import com.doglovers.abandog.dto.DogDTO;
+import com.doglovers.abandog.dto.Pagination;
 
-
-@Repository("MemberDAO")
-public class MemberDAO extends AbstractDAO{
-
-	public int checkId(String id) throws Exception{
-		return (int) selectOne("checkId", id);
-	}
-	public int checkEmail(String email) {
-		return (int) selectOne("checkemail", email);
-	}
-	public void insertMemDTO(MemberDTO userVO) {
-		insert("insertMember",userVO);
-		
-	}
-
-	
+public interface MemberDAO {
+	int selectDogListNum();
+	int selectDogListNum2(Pagination pagination);
+	ArrayList<DogDTO> selectDogList(Pagination pagination);
+	DogDTO selectDog(int cid);
 }
