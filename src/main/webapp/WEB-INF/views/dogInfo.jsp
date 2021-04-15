@@ -32,7 +32,6 @@
 </head>
 <body>
 
-
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center header-transparent">
     <div class="container d-flex align-items-center">
@@ -44,12 +43,17 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="${pageContext.request.contextPath}/main">Home</a></li>
-          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/aboutus">About Us</a></li>
-          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/aboutdogs">About Abandoned dogs</a></li>
           <li class="dropdown"><a href="#"><span>Search Dogs</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="${pageContext.request.contextPath}/searchbyimage">Search Dogs by image</a></li>
               <li><a href="${pageContext.request.contextPath}/searchbycategory">Search Dogs by category</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+	          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/aboutus">About Us</a></li>
+	          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/aboutdogs">About Abandoned dogs</a></li>
+	          <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
             </ul>
           </li>
           <c:choose>
@@ -57,20 +61,13 @@
 	          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/logIn">Log In</a></li>  	
           	</c:when>
           	<c:otherwise>
+          	  <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/mypage">My Page</a></li>
           	  <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/logout">Log Out</a></li>
           	</c:otherwise>
           </c:choose>
-          <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-
-      <div class="social-links">
-        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-      </div>
 
     </div>
   </header><!-- End Header -->
