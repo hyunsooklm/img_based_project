@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.doglovers.abandog.dto.DogDTO;
 import com.doglovers.abandog.dto.Pagination;
 
-public interface MemberDAO {
+public interface DogDAO {
 	int selectDogListNum();
 	int selectDogListNum2(Pagination pagination);
 	ArrayList<DogDTO> selectDogList(Pagination pagination);
