@@ -52,7 +52,14 @@
               <li><a href="${pageContext.request.contextPath}/searchbycategory">Search Dogs by category</a></li>
             </ul>
           </li>
-          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/join">Join Us</a></li>
+          <c:choose>
+          	<c:when test="${loginVO == null}">
+	          <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/logIn">Log In</a></li>  	
+          	</c:when>
+          	<c:otherwise>
+          	  <li><a class="nav-link scrollto" href="${pageContext.request.contextPath}/logout">Log Out</a></li>
+          	</c:otherwise>
+          </c:choose>
           <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

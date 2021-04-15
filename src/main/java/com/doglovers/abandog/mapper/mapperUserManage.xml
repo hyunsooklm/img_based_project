@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doglovers.abondog.dao.UserManageDAO">
+	<!-- <resultMap id="loginVo" type="kr.co.ethree.kaccc.home.web.vo.LoginVO"> 
+		<result property="userId" column="USER_ID" /> <result property="userNm" column="USER_NM" 
+		/> <result property="password" column="PASSWORD" /> <result property="useYn" 
+		column="USE_YN" /> <result property="roleId" column="ROLE_ID" /> <result 
+		property="deptNm" column="DEPT_NM" /> <result property="posiNm" column="POSI_NM" 
+		/> -->
+	<!-- <result property="authCd" column="AUTH_CD"/> <result property="prntAreaCd" 
+		column="PRNT_AREA_CD"/> <result property="prntAreaNm" column="PRNT_AREA_NM"/> 
+		<result property="areaCd" column="AREA_CD"/> <result property="areaNm" column="AREA_NM"/> 
+		<result property="farmCd" column="FARM_CD"/> <result property="farmNm" column="FARM_NM"/> 
+		<result property="tel" column="TEL"/> <result property="email" column="EMAIL"/> 
+		<result property="modeFlag" column="MODE_FLAG"/> <result property="regDt" 
+		column="REG_DT"/> -->
+	<!-- </resultMap> -->
+
+	<!-- id 중복체크 -->
+	<select id="checkId" parameterType="String" resultType="int">
+		SELECT count(*)
+		FROM member
+		WHERE id = #{id};
+	</select>
+	<!-- email 중복체크 -->
+	<select id="checkEmail" parameterType="String" resultType="int">
+		SELECT count(*)
+		FROM member
+		WHERE email = #{email};
+	</select>
+
+	<!-- 회원등록 useGeneratedKeys, keyproperty가 있어야 insert와 동시에 uid값 생긴거를 가져올수 있음! -->
+	<insert id="insertMember" flushCache="true"
+		parameterType="com.doglovers.abandog.dto.MemberDTO" useGeneratedKeys="true" keyProperty="uid">
+		INSERT INTO
+		member(id, pw, name, email)
+		VALUES (#{id}, #{pw}, #{name}, #{email});
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="com.doglovers.abandog.dto.MemberDTO" resultType="com.doglovers.abandog.dto.MemberDTO">
+		SELECT *
+		FROM member
+		WHERE id = #{id};
+	</select>
+	
+	<!-- 회원정보수정 pw이외에 바꿀경우가 없지 않나요???(id, email 중복확인 필요, name 이걸 바꾸진,,,) -->
+	<update id="updtMember" parameterType="com.doglovers.abandog.dto.MemberDTO">
+		UPDATE member
+		SET pw = #{pw}
+		WHERE id = #{id};
+	</update>
+	
+	<!-- id찾기(이름과 이메일을 통해서 찾기) 지금은 ajax로 success중 result가 비어있으면 없는거라고, result가 있으면 alert창을 통해서 띄우면 가장 쉽게 구현가능 -->
+	<select id="selectId" parameterType="com.doglovers.abandog.dto.MemberDTO" resultType="String">
+		SELECT id
+		FROM member
+		WHERE name = #{name} AND email = #{email};
+	</select>
+	
+	<select id="selectPw" parameterType="com.doglovers.abandog.dto.MemberDTO" resultType="int">
+		SELECT count(*)
+		FROM member
+		WHERE id = #{id} AND name = #{name} AND email = #{email};
+	</select>
+	
+	<!-- id찾기(이름과 이메일을 통해서 찾기) 지금은 ajax로 success중 result가 비어있으면 없는거라고, result가 있으면 alert창을 통해서 띄우면 가장 쉽게 구현가능 -->
+	<select id="se_pw" parameterType="com.doglovers.abandog.dto.MemberDTO" resultType="String">
+		SELECT pw
+		FROM member
+		WHERE id = #{id};
+	</select>
+
+</mapper>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.doglovers.abandog.dao.MemberDAO;
+import com.doglovers.abandog.dao.DogDAO;
 import com.doglovers.abandog.dto.C;
 import com.doglovers.abandog.dto.DogDTO;
 import com.doglovers.abandog.dto.Pagination;
@@ -22,7 +22,7 @@ import com.doglovers.abandog.dto.Result;
 
 @Controller
 @RequestMapping("/")
-public class MemberController {
+public class DogController {
 	
 	@RequestMapping("/main")
 	public String main(Model model) {
@@ -31,7 +31,7 @@ public class MemberController {
 	
 	@RequestMapping("/searchbycategory")
 	public String searchbycategory(Model model) {
-		MemberDAO dao =  C.sqlSession.getMapper(MemberDAO.class);
+		DogDAO dao =  C.sqlSession.getMapper(DogDAO.class);
 		model.addAttribute("total", dao.selectDogListNum());
 		model.addAttribute("page", 1);
 		model.addAttribute("gender", 0);
@@ -52,7 +52,7 @@ public class MemberController {
 		pagination.setNeuter(neuter);
 		pagination.setLocation(location);
 		
-		MemberDAO dao =  C.sqlSession.getMapper(MemberDAO.class);
+		DogDAO dao =  C.sqlSession.getMapper(DogDAO.class);
 		model.addAttribute("total", dao.selectDogListNum2(pagination));
 		model.addAttribute("page", page);
 		model.addAttribute("gender", gender);
@@ -76,7 +76,7 @@ public class MemberController {
 		pagination.setNeuter(neuter);
 		pagination.setLocation(location);
 		
-		MemberDAO dao =  C.sqlSession.getMapper(MemberDAO.class);
+		DogDAO dao =  C.sqlSession.getMapper(DogDAO.class);
 		Result result = new Result();
 		
 		ArrayList<DogDTO> list = dao.selectDogList(pagination);
@@ -90,7 +90,7 @@ public class MemberController {
 	public String dogInfo(Model model, int cid) {	
 		model.addAttribute("cid", cid);
 		
-		MemberDAO dao =  C.sqlSession.getMapper(MemberDAO.class);
+		DogDAO dao =  C.sqlSession.getMapper(DogDAO.class);
 		model.addAttribute("dog", dao.selectDog(cid));
 
 		return "dogInfo";
